@@ -10,3 +10,4 @@ while ((i <= 12)); do
     done
     ((i++))
 done
+echo "hour: 12"

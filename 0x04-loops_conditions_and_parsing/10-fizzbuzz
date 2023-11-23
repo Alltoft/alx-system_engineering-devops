@@ -9,10 +9,10 @@ while ((i <= 100))
 do
     if [ $((i % 3)) -eq 0 ] && [ $((i % 5)) -ne 0 ]
     then
-        echo Buzz
+        echo Fizz
     elif [ $((i % 5)) -eq 0 ] && [ $((i % 3)) -ne 0 ]
     then
-        echo Fizz
+        echo Buzz
     elif [ $((i % 5)) -eq 0 ] && [ $((i % 3)) -eq 0 ]
     then
         echo FizzBuzz

@@ -3,7 +3,7 @@
 i=0
 while ((i < 10)); do
     echo "Best School"
-    if [ $i -eq 8 ]
+    if [ $i -eq 3 ]
     then
         echo "Hi"
     fi

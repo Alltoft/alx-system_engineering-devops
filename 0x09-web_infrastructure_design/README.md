@@ -9,4 +9,4 @@
 - Know all the mentioned acronyms: LAMP, SPOF, QPS
 
 # More Info:
-follow this account: [a great account](https://github.com/Alltoft)
+follow this account: [a great account :)](https://github.com/Alltoft)

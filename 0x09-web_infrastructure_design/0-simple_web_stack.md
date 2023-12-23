@@ -1,1 +1,0 @@
-[simple web stack implementation](https://imgur.com/BzjGIZh)

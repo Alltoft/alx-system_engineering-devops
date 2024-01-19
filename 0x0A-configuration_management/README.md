@@ -22,7 +22,7 @@ $ apt-get install -y ruby-augeas
 $ apt-get install -y ruby-shadow
 $ apt-get install -y puppet
 ```
-### Reasources:
+### MOre info:
 
 check [puppet docs](https://www.puppet.com/docs/)
 

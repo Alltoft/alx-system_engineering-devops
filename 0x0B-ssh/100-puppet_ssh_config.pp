@@ -1,10 +1,6 @@
-class ssh {
-  file {
-    '~/.ssh/school'
-    ensure  => 'present',
-    owner   => 'user',
-    group   => 'user',
-    mode    => '0600',
-    content => template('ssh/config.erb'),
-  }
+# set up my client SSH configuration
+
+exec { 'config SSH client':
+  command => "echo -e 'IdentityFile ~/.ssh/school\nPasswordAuthentication no\n' >> /etc/ssh/ssh_config",
+  path    => '/bin:/usr/bin',
 }

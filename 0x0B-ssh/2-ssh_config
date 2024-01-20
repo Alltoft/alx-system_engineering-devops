@@ -1,0 +1,3 @@
+# ~/.ssh/school
+Host 
+IdentityFile ~/.ssh/school

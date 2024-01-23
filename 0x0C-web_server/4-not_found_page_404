@@ -13,4 +13,17 @@ echo "server {
 	    return 301 http://youtube.com/;
 }
 }" > /etc/nginx/sites-available/default
+sudo sh -c 'echo "<!DOCTYPE html>
+<html>
+<head>
+<title>404 Not Found</title>
+</head>
+<body>
+<h1>404 Not Found</h1><p>Ceci n'\''est pas une page.</p><
+/body>
+</html>" > /var/www/html/404.html'
+sudo sh -c 'echo "error_page 404 /404.html;\n\n
+location = /404.html {\n    internal;\n}"
+ > /etc/nginx/conf.d/custom-errors.conf'
+sudo nginx -t
 sudo service nginx restart

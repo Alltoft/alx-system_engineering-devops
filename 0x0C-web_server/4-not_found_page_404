@@ -3,27 +3,15 @@
 
 sudo apt-get update
 sudo apt-get -y install nginx
-echo "Hello World!" | sudo tee /var/www/html/index.nginx-debian.html
-echo "server {
-    listen 80;
-    listen [::]:80 default_server;
-    root    /var/www/html;
-    index   index.nginx-debian.html;
-    location /redirect_me {
-	    return 301 http://youtube.com/;
-}
-}" > /etc/nginx/sites-available/default
-sudo sh -c 'echo "<!DOCTYPE html>
-<html>
-<head>
-<title>404 Not Found</title>
-</head>
-<body>
-<h1>404 Not Found</h1><p>Ceci n'\''est pas une page.</p><
-/body>
-</html>" > /var/www/html/404.html'
-sudo sh -c 'echo "error_page 404 /404.html;\n\n
-location = /404.html {\n    internal;\n}"
- > /etc/nginx/conf.d/custom-errors.conf'
-sudo nginx -t
+#!/usr/bin/env bash
+# Customize 404 error page
+
+sudo apt-get update
+sudo apt-get -y install nginx
+echo "Hello World!" > /var/www/html/index.nginx-debian.html
+new_line="server_name _;\n\trewrite ^\/redirect_me https:\/\/github.com\/hajarzaitouni permanent;"
+sed -i "s/server_name _;/$new_line/" /etc/nginx/sites-available/default
+echo "Ceci n'est pas une page" > /var/www/html/custom_404.html
+new_string="server_name _;\n\terror_page 404 \/custom_404.html;\n\tlocation = \/custom_404.html {\n\t\troot \/var\/www\/html;\n\t\tinternal;\n\t}"
+sed -i "s/server_name _;/$new_string/" /etc/nginx/sites-available/default
 sudo service nginx restart

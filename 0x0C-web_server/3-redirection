@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# a Bash script that install Nginx on a server
+# Configure my Nginx server so that /redirect_me is redirecting to another page
 
 sudo apt-get update
 sudo apt-get -y install nginx
-echo "Hello World!" | sudo tee /var/www/html/index.nginx-debian.html
-new_line="server_name _;\n\trewrite ^\/redirect_me https:\/\/github.com\/Alltoft permanent;"
+echo "Hello World!" > /var/www/html/index.nginx-debian.html
+new_line="server_name _;\n\trewrite ^\/redirect_me https:\/\/github.com\/hajarzaitouni permanent;"
 sed -i "s/server_name _;/$new_line/" /etc/nginx/sites-available/default
 sudo service nginx restart

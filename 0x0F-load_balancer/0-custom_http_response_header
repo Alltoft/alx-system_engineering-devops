@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# Double the number of webservers
+
+# Update package information
+sudo apt-get update
+
+# Install Nginx
+sudo apt-get install -y nginx
+
+# Create default page
+echo "Hello World!" | sudo tee /var/www/html/index.html
+
+f_config="/etc/nginx/sites-available/default"
+
+# Add redirection
+new_site="https://youtube.com"
+sudo sed -i "/server_name _/a rewrite ^/redirect_me $new_site permanent;" $f_config
+
+# Add 404 Not found page
+echo "Ceci n'est pas une page" | sudo tee /usr/share/nginx/html/my_404.html
+new_404="my_404.html"
+l_new_404="/my_404.html {root /usr/share/nginx/html;\n internal;}"
+sudo sed -i "/server_name _/a error_page 404 /$new_404; location = $l_new_404" $f_config
+
+# custom http response header
+sudo sed -i "/server_name _/a add_header X-Served-By $HOSTNAME;" /etc/nginx/sites-available/default
+
+# Restart nginx
+sudo service nginx restart

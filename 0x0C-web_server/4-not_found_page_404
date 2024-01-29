@@ -1,15 +1,24 @@
 #!/usr/bin/env bash
-# Create a custom 404 page
+# Recdirect 404 error to a custom file whit the string Ceci n'est pas une page.
 
-sudo apt-get -y update
-sudo apt-get -y install nginx
-echo 'Hello World!' | sudo tee /var/www/html/index.nginx-debian.html
-var="\trewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;"
-sudo sed -i "35i \ $var" /etc/nginx/sites-available/default
-sudo touch /var/www/html/404.html
-echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
-var2="\terror_page 404 /404.html;"
-sudo sed -i "36i \ $var2" /etc/nginx/sites-available/default
-var3="\n\tlocation = /404.html {\n\t\troot /var/www/html;\n\t\tinternal;\n\t}"
-sudo sed -i "44i \ $var3" /etc/nginx/sites-available/default
-sudo service nginx start
+sudo apt-get update
+sudo apt-get install -y nginx
+
+# Create default page
+echo "Hello World!" | sudo tee /var/www/html/index.html
+
+# Firewall Configurate server
+#ufw allow 'Nginx HTTP'
+
+f_config="/etc/nginx/sites-available/default"
+# Add redirection
+new_site="https://github.com/Alltoft"
+sudo sed -i "/listen 80 default_server/a rewrite ^/redirect_me $new_site permanent;" $f_config
+
+# Add 404 redirection
+echo "Ceci n'est pas une page" | sudo tee /usr/share/nginx/html/my_404.html
+new_404="my_404.html"
+l_new_404="/my_404.html {root /usr/share/nginx/html;\n internal;}"
+sudo sed -i "/listen 80 default_server/a error_page 404 /$new_404; location = $l_new_404" $f_config
+
+sudo service nginx restart

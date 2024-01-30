@@ -1,22 +1,21 @@
 #!/usr/bin/env bash
-# a Bash script that configures a new Ubuntu machine
-
+# install HaProxy
 sudo apt-get update
 sudo apt-get install --no-install-recommends software-properties-common
 sudo add-apt-repository ppa:vbernat/haproxy-2.8
+sudo apt-get install -y haproxy
 
-sudo apt-get install haproxy=2.8.\*
+echo "ENABLED=1" | sudo tee -a /etc/default/haproxy
+echo "CONFIG=/etc/haproxy/conf.cfg" | sudo tee -a /etc/default/haproxy
 
-sudo touch /etc/haproxy/conf.cfg
-echo "frontend front
+echo "
+frontend front
     bind *:80
-    mode http
-    default_backend ser_set
-backend ser_set
+    default_backend back
+
+backend back
     balance roundrobin
     server 430512-web-01 35.153.19.245:80 check
-    server 430512-web-02 52.91.126.247:80 check" >> /etc/haproxy/haproxy.cfg
-
-echo "ENABLED=1" >> sudo tee /etc/default/haproxy
+    server 430512-web-02 52.91.126.247:80 check" | sudo tee -a /etc/haproxy/conf.cfg
 
 sudo service haproxy restart

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # install the ufw firewall and setup a few rules on my servers.
 
-sudo apt install ufw
+sudo apt -y install ufw
 ufw disable
 sudo ufw default deny incoming
 sudo ufw default allow outgoing

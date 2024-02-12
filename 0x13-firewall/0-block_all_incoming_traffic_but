@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-#install and config a firewall
+# install the ufw firewall and setup a few rules on my servers.
 
 sudo apt install ufw
-sudo ufw disable
+ufw disable
 sudo ufw default deny incoming
 sudo ufw default allow outgoing
 sudo ufw allow 22/tcp
-sudo ufw allow 433/tcp
+sudo ufw allow 443/tcp
 sudo ufw allow 80/tcp
 sudo ufw enable
 sudo ufw status

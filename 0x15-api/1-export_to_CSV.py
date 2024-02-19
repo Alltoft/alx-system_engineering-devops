@@ -9,7 +9,7 @@ import sys
 if __name__ == "__main__":
     emp_id = sys.argv[1]
     user_name = requests.get('https://jsonplaceholder.typicode.com/users/{}'
-                            .format(emp_id)).json().get("username")
+                             .format(emp_id)).json().get("username")
     task_status = []
     task_title = []
 
@@ -23,4 +23,4 @@ if __name__ == "__main__":
     with open("{}.csv".format(emp_id), "a") as f:
         for status, title in zip(task_status, task_title):
             print('"{}","{}","{}","{}"'
-                .format(emp_id, user_name, status, title), file=f)
+                  .format(emp_id, user_name, status, title), file=f)

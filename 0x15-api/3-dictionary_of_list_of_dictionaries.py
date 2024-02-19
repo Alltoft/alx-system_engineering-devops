@@ -1,37 +1,31 @@
 #!/usr/bin/python3
-"""
-Extend the python script from exercise 0 to export data in JSON format.
+"""Export data in the JSON format"""
 
-Records all completed tasks from all employees.
-Format must be: {"USER_ID": [ {"task": TASK_TITLE,
-                               "completed": TASK_COMPLETED_STATUS,
-                               "username": USERNAME"},
-                               {...}
-                            ]
-File name must be: todo_all_employees.json
-"""
 import json
 import requests
+import sys
 
-if __name__ == "__main__":
-    users = requests.get("http://jsonplaceholder.typicode.com/users").json()
-    tasks = requests.get("http://jsonplaceholder.typicode.com/todos").json()
-    storage = {}
 
+if __name__ == '__main__':
+    url = "https://jsonplaceholder.typicode.com/users"
+
+    response = requests.get(url)
+    users = response.json()
+
+    dictionary = {}
     for user in users:
-        eid = user.get("id")
-        username = user.get("username")
-        all_tasks = []
-
+        user_id = user.get('id')
+        username = user.get('username')
+        url = 'https://jsonplaceholder.typicode.com/users/{}'.format(user_id)
+        url = url + '/todos/'
+        response = requests.get(url)
+        tasks = response.json()
+        dictionary[user_id] = []
         for task in tasks:
-            if (task.get("userId") == eid and task.get("completed")):
-                temp = {}
-                temp["task"] = task.get("title")
-                temp["completed"] = task.get("completed")
-                temp["username"] = username
-                all_tasks.append(temp)
-
-        storage[eid] = all_tasks
-
-    with open("todo_all_employees.json", 'w+') as jsonfile:
-        json.dump(storage, jsonfile)
+            dictionary[user_id].append({
+                "task": task.get('title'),
+                "completed": task.get('completed'),
+                "username": username
+            })
+    with open('todo_all_employees.json', 'w') as file:
+        json.dump(dictionary, file)

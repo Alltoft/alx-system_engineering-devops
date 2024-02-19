@@ -1,29 +1,28 @@
 #!/usr/bin/python3
-"""
-Write a script that hits a REST api that has data on employees and tasks
-and filters the data based on an argument passed to the script.
-The argument is the employee ID, and the output should display the employee
-name and the tasks the employee completed.
-"""
+"""a Python script that, using jsonplaceholder.typicode REST API,
+for a given employee ID, returns information about his/her
+TODO list progress"""
 import requests
 import sys
 
+
 if __name__ == "__main__":
-    eid = sys.argv[1]
-    name = requests.get("http://jsonplaceholder.typicode.com/users/{}"
-                        .format(eid)).json().get("name")
-    total_tasks = 0
-    done_tasks = []
-    r = requests.get("http://jsonplaceholder.typicode.com/todos").json()
+    emp_id = sys.argv[1]
+    emp_name = requests.get('https://jsonplaceholder.typicode.com/users/{}'
+                            .format(emp_id)).json().get("name")
+    Num_of_task = 0
+    tasks_done = []
 
-    for task in r:
-        if (task.get("userId") == int(eid)):
-            total_tasks += 1
-            if (task.get("completed")):
-                done_tasks.append(task.get("title"))
+    request = requests.get('https://jsonplaceholder.typicode.com//todos')\
+        .json()
 
-    print("Employee {} is done with tasks({:d}/{:d}):"
-          .format(name, len(done_tasks), total_tasks))
+    for test in request:
+        if test.get('userId') == int(emp_id):
+            Num_of_task += 1
+            if test.get('completed') is True:
+                tasks_done.append(test.get('title'))
 
-    for item in done_tasks:
-        print("\t {}".format(item))
+    print('Employee {} is done with tasks({}/{}):'
+          .format(emp_name, len(tasks_done), Num_of_task))
+    for task_title in tasks_done:
+        print('\t {}'.format(task_title))
